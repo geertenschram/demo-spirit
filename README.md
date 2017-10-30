@@ -4,16 +4,16 @@ Based on the most excellent working demos done by Veer -> https://github.com/Vee
 
 These are for Openshift Enterprise version 3.1.0 and aren't guaranteed to work on other versions.
 
+Changed for a demo for an organisation. Tested against Origin 3.6 (on Fedora with oc cluster up).
+
 ### Setup
 
 git clone this repo: 
 ```
 cd /home/demo
-git clone https://github.com/ffirg/openshift.git
-cd openshift/bin
+git clone https://github.com/geertenschraam/demo-spirit.git
+cd demo-sprit/bin
 ```
-
-Using demobuilder all-in-one image as your base (https://github.com/RedHatEMEA/demobuilder), open up the console and fire up the Firefox browser and a Terminal.
 
 ### What They Demo
 
