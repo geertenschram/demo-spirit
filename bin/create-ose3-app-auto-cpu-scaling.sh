@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 export APP="welcome-php"
-DEMO_USER="demo"
+DEMO_USER="geerten"
 PROJECT="auto-cpu-scaling"
 SRC="https://github.com/RedHatWorkshops/${APP}.git"
 RESOURCE_LIMITS="../conf/resource-limits.yml"

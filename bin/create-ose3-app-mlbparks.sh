@@ -3,10 +3,10 @@
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-APP="mlbparks-eap"
-TEMPLATE="https://raw.githubusercontent.com/gshipley/openshift3mlbparks/master/mlbparks-template-eap.json"
-USER="admin"
-PROJECT="mlbparks"
+APP="mlbparks-wildfly"
+TEMPLATE="https://raw.githubusercontent.com/jorgemoralespou/openshift3mlbparks/master/mlbparks-template-wildfly.json"
+USER="geerten"
+PROJECT="demo-spirit"
 build_status="NULL"
 
 # include all our functions...
