@@ -39,7 +39,7 @@ Demonstrates how to do rolling A-B or Canary style deployment. Bring application
 2. vi create-ose3-app-ab-deployment.sh script to reference the new forked project (SRC= line near the top)
 3. ./create-ose3-app-ab-deployment.sh (Once it builds "app-a", you need to pop over to your forked repo and do a code change to index.php - the script will tell you this). Run through the rest of the script. 
 
-### Running
+##### Running
 In the Terminal (as the demo user):
 ```
 $ cd /home/demo
