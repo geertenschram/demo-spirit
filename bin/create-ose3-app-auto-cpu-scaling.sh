@@ -23,11 +23,11 @@ run_cmd run "oc login -u $DEMO_USER"
 # setup project
 run_cmd echo "Setup the $PROJECT project"
 run_cmd run "oc new-project $PROJECT --description \"Example of Horizontal Auto CPU scaling\""
-run_cmd run "oc project $PROJECT"
+# run_cmd run "oc project $PROJECT"
 
 # need to setup resource limits on the project first...
 run_cmd echo "Creating Resource Limits for this project..."
-run_cmd run "sudo -s oc create -f ${RESOURCE_LIMITS} -n ${PROJECT}"
+run_cmd run "oc login -u system:admin; oc create -f ${RESOURCE_LIMITS} -n ${PROJECT}"
 
 # Create the application...
 run_cmd echo "Create a new application - ${APP}"

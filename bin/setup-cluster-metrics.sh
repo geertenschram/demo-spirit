@@ -5,10 +5,10 @@
 # This is a pre requisite for CPU auto-scaling :)
 #
 
-OSE_MASTER="openshift.example.com"
+OSE_MASTER="metrics.apps.10.255.255.1.nip.io"
 LIBDIR="../libs"
 CONFDIR="../conf"
-USER="demo"
+USER="system:admin"
 MDSA="metrics-deployer-service-account.yml"
 PROJECT="openshift-infra"
 
@@ -20,16 +20,10 @@ echo "*** SETUP OPENSHIFT CLUSTER METRICS ***"
 echo "*** THIS USES AUTO GENERATED CERTS AND NON-PERSISTENT METRICS STORAGE ***"
 echo
 
-# Need to run as root so we are SYSTEM:ADMIN
-if [ ${MY_UID} -ne 0 ]
-then
-  echo "Need to be root for this one!"
-  exit 1
-fi
+run_cmd echo "Even aanmelden als cluster admin:"
+run_cmd run "oc login -u ${USER}"
 
-run_cmd echo "Creating ${PROJECT} project..."
-run_cmd run "oc new-project ${PROJECT}"
-run_cmd echo "Log in to the ${PROJECT} project..."
+run_cmd echo "Using ${PROJECT} project..."
 run_cmd run "oc project ${PROJECT}"
 
 if [ ! -r ${CONFDIR}/${MDSA} ]
@@ -45,9 +39,6 @@ metadata:
 secrets:
 - name: metrics-deployer
 EOF
-  chown -R demo:demo ${CONFDIR} >/dev/null 2>&1
-  chmod 755 ${CONFDIR} >/dev/null 2>&1
-  chmod 644 ${CONFDIR}/${MDSA} >/dev/null 2>&1
 fi
 
 run_cmd echo "Creating Metrics Deployer Service Account..."
@@ -78,21 +69,21 @@ then
 fi
 
 run_cmd echo "Setting up Hawkular metrics...this will run for some time in the background..."
-run_cmd run "oc process -f ${CONFDIR}/${METRICS} -v IMAGE_PREFIX=openshift3/,IMAGE_VERSION=latest,HAWKULAR_METRICS_HOSTNAME=${OSE_MASTER},USE_PERSISTENT_STORAGE=false | oc create -f -"
+run_cmd run "oc process -f ${CONFDIR}/${METRICS} -p IMAGE_PREFIX=openshift3/ -p IMAGE_VERSION=latest -p HAWKULAR_METRICS_HOSTNAME=${OSE_MASTER} -p USE_PERSISTENT_STORAGE=false | oc create -f -"
 
-OSE_MASTER_CONFIG=/etc/origin/master/master-config.yaml
-TIMESTAMP="`date +%d%m%y_%m%S`"
+#OSE_MASTER_CONFIG=/etc/origin/master/master-config.yaml
+#TIMESTAMP="`date +%d%m%y_%m%S`"
 
-echo "Updating OSE Master Config (adding Metrics URL...)"
-if [ -r ${OSE_MASTER_CONFIG} ]
-then
-  grep "metricsPublicURL:" ${OSE_MASTER_CONFIG} >/dev/null 2>&1 || \
-  ( cp ${OSE_MASTER_CONFIG} ${OSE_MASTER_CONFIG}.${TIMESTAMP} && \
-    echo "Made a copy of master file - ${OSE_MASTER_CONFIG}.${TIMESTAMP}" && \
-   sed -i '/assetConfig:/a\ \ metricsPublicURL: https://'"${OSE_MASTER}"'/hawkular/metrics' ${OSE_MASTER_CONFIG} )
-fi
+#echo "Updating OSE Master Config (adding Metrics URL...)"
+#if [ -r ${OSE_MASTER_CONFIG} ]
+#then
+#  grep "metricsPublicURL:" ${OSE_MASTER_CONFIG} >/dev/null 2>&1 || \
+#  ( cp ${OSE_MASTER_CONFIG} ${OSE_MASTER_CONFIG}.${TIMESTAMP} && \
+#    echo "Made a copy of master file - ${OSE_MASTER_CONFIG}.${TIMESTAMP}" && \
+#   sed -i '/assetConfig:/a\ \ metricsPublicURL: https://'"${OSE_MASTER}"'/hawkular/metrics' ${OSE_MASTER_CONFIG} )
+$fi
 
-echo "Restating Openshift Master..."
-systemctl restart atomic-openshift-master 
+#$echo "Restating Openshift Master..."
+#$systemctl restart atomic-openshift-master 
 
 echo "WE SHOULD BE DONE HERE!"
