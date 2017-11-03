@@ -12,7 +12,7 @@ git clone this repo:
 ```
 cd /home/demo
 git clone https://github.com/geertenschraam/demo-spirit.git
-cd demo-sprit/bin
+cd demo-spirit/bin
 ```
 
 ### What They Demo
@@ -21,7 +21,7 @@ cd demo-sprit/bin
 Demonstrates how an application can use cluster metrics and horizontal pod scaling based on CPU load. Deploys a welcome-php application, setups up project quota and CPU scaling resource controls and generates some HTTP traffic to showcase auto pod scale up/down.
 
 ```
-$ ./create-ose3-app-auto-cpu-scaling.sh
+$ ./spirit-autoscale.sh
 ```
 
 #### Code Promotion Between Environments 

@@ -4,12 +4,12 @@
 # Setup OSE centralised container logs using EFK
 #
 
-OSE_MASTER="openshift.example.com"
+OSE_MASTER="127.0.0.1"
 LIBDIR="../libs"
 CONFDIR="../conf"
-USER="demo"
+USER="geerten"
 LDSA="logging-deployer-service-account.yml"
-PROJECT="logging"
+ROJECT="logging"
 
 . ${LIBDIR}/functions
 
@@ -19,12 +19,15 @@ echo "*** SETUP CENTRALISED OPENSHIFT EFK LOGGING ***"
 echo
 
 # Need to run as root so we are SYSTEM:ADMIN
-if [ ${MY_UID} -ne 0 ]
-then
-  echo "Need to be root for this one!"
-  exit 1
-fi
+#if [ ${MY_UID} -ne 0 ]
+#then
+#  echo "Need to be root for this one!"
+#  exit 1
+#fi
+## loggen gewoon in met oc login -u system:admin
 
+run_cmd echo "Inloggen als clusteradmin"
+run_cmd run "oc login -u system:admin"
 run_cmd echo "Creating ${PROJECT} project..."
 run_cmd run "oc new-project ${PROJECT}"
 run_cmd echo "Log in to the ${PROJECT} project..."
